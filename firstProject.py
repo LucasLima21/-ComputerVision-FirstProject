@@ -8,27 +8,34 @@ E-mail: ldsllm.eng@uea.edu.br
 
 import cv2
 import numpy as np
-black = (0,0,0)
+blue = (255,0,0)
+
+def getHeightAndWidth(image):
+    height, width = image.shape[:2]
+    return height, width
 
 def copyImage(image):
     return np.copy(image)
 
 def groupNameComponents(image):
     font = cv2.FONT_HERSHEY_SIMPLEX
-    return cv2.putText(copyImage(image), 'Karla Felix, Lucas Lima e Victor Lopes', (3, 50), font, 1, black, 1, cv2.LINE_AA)
+    saveImage = copyImage(image)
+    height, width = getHeightAndWidth(saveImage)
+    return cv2.putText(saveImage, 'Karla Felix, Lucas Lima e Victor Lopes', (height - 500, width - 260), font, 1, blue, 1 , cv2.LINE_AA)
 
 def circle(image):
-    height, weight = copyImage(image).shape[:2]
-    return cv2.circle(copyImage(image), (height-200, weight-400), 100, black, -1)
+    saveImage = copyImage(image)
+    height, width = getHeightAndWidth(saveImage)
+    return cv2.circle(saveImage, (height-200, width-400), 100, blue, -1)
 
 def flip(image):
     return cv2.flip(copyImage(image), 0)
 
 def crop(image):
-    return copyImage(image)[200:800, 100:600]
+    height, width = getHeightAndWidth(image)
+    return image[200:800, 200:600]
 
 def results(image):
-    
     imageGroupName = groupNameComponents(image)
     imageCircle = circle(image)
     imageFlip = flip(image)
@@ -36,11 +43,11 @@ def results(image):
     return [image, imageGroupName, imageCircle, imageFlip, imageCropped]
     
         
-
 def showResults():
-    image = cv2.imread('manaus.jpg', 1)
+    image = cv2.imread('chernobilly.jpeg', 1)
+    print(image.shape[0], image.shape[1])
     result = results(image)
-    imageStrings = ['Original', 'Integrantes do Grupo', 'Círculo', 'Giro Horizontal', 'Image Cortada']
+    imageStrings = ['Original', 'Integrantes do Grupo', 'Circulo', 'Giro Horizontal', 'Image Cortada']
     for i in range(len(result)):
         cv2.imshow(imageStrings[i], result[i])
         cv2.waitKey(0)
