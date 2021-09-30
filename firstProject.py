@@ -29,10 +29,9 @@ def circle(image):
     return cv2.circle(saveImage, (height-200, width-400), 100, blue, -1)
 
 def flip(image):
-    return cv2.flip(copyImage(image), 0)
+    return cv2.flip((image), 0)
 
 def crop(image):
-    height, width = getHeightAndWidth(image)
     return image[200:800, 200:600]
 
 def results(image):
@@ -52,6 +51,7 @@ def showResults():
         cv2.imshow(imageStrings[i], result[i])
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+
 
 showResults()
 
